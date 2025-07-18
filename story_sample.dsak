@@ -8,6 +8,7 @@ id: 123
 MC
 goes
 somewhere
-description: At night, trying not to be seen
+description: At night,\
+trying not to be seen
 prev_facts: 2
 chapter: 0
