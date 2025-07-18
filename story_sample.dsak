@@ -4,11 +4,17 @@ sees
 target: landscape
 chapter: 0
 -
+id: 32
+Ch2
+stays
+home
+chapter: 0
+-
 id: 123
 MC
 goes
 somewhere
 description: At night,\
 trying not to be seen
-prev_facts: 2
+prev_facts: 2,32
 chapter: 0
