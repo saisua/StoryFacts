@@ -15,6 +15,7 @@ class Fact(Base):
 	object = Column(Text)
 	target = Column(LargeBinary)
 	description = Column(Text)
+	narration = Column(Text)
 	prev_facts = Column(LargeBinary)
 	date = Column(DateTime)
 	chapter = Column(Integer)

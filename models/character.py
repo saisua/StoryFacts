@@ -8,5 +8,6 @@ class Character(Base):
 
 	id = Column(Integer, primary_key=True, autoincrement=True)
 	name = Column(String, unique=True)
+	aliases = Column(Text)
 	description = Column(Text)
 	facts = Column(LargeBinary)
