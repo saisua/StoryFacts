@@ -12,11 +12,13 @@ def plot_graph(db_uri, output_file="graph.png", *, graph=None):
 	# Draw the graph
 	pos = nx.spring_layout(
 		graph,
-		scale=2,
-		k=0.4
+		# scale=2,
+		k=11,
+		iterations=1300,
+		seed=48,
 	)  # Position the nodes
 	colors = [
-		data['color']
+		data.get('color', 'skyblue')  # Use 'skyblue' as default color if 'color' key doesn't exist
 		for _, data in graph.nodes(data=True)
 	]  # Extract node colors
 	labels = nx.get_node_attributes(graph, 'label')  # Extract labels
@@ -28,8 +30,8 @@ def plot_graph(db_uri, output_file="graph.png", *, graph=None):
 		node_color=colors,
 		with_labels=True,
 		labels=labels,
-		node_size=5000,
-		font_size=8,
+		node_size=500,
+		font_size=4,
 		font_color="white",
 	)
 	nx.draw_networkx_edge_labels(
@@ -42,5 +44,5 @@ def plot_graph(db_uri, output_file="graph.png", *, graph=None):
 	)
 
 	plt.title("Database Graph")
-	plt.savefig(output_file)
-	plt.show()
+	plt.savefig(output_file, dpi=300)
+	# plt.show()

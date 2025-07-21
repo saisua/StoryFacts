@@ -3,6 +3,8 @@ from typing import Final
 from db.init_db import init_db
 from db.from_dsak import from_dsak
 
+from graph.plot_graph import plot_graph
+
 
 DB_URI: Final[str] = "sqlite:///storyfacts.db"
 DSAK_FILE: Final[str] = "story_sample.dsak"
@@ -11,10 +13,12 @@ DSAK_FILE: Final[str] = "story_sample.dsak"
 def main():
 	init_db(DB_URI)
 
-	from_dsak(
-		DB_URI,
-		DSAK_FILE,
-	)
+	# from_dsak(
+	# 	DB_URI,
+	# 	DSAK_FILE,
+	# )
+
+	plot_graph(DB_URI)
 
 
 if __name__ == "__main__":

@@ -1,14 +1,33 @@
+landscape
+exists
+fact_type: definition
+character_type: abstract
+-
+home
+exists
+fact_type: definition
+character_type: location
+-
 id: 2
 MC
 sees
 target: landscape
-chapter: 0
+text: The MC stopped to visualize the pretty landscape laying in front of them
+@chapter: 0
 -
 id: 32
 Ch2
 stays
 home
-chapter: 0
+-
+id: 30
+Ch2
+talks
+about MC
+target: Ch2's mom
+fact_type: dialogue
+text: Do you know MC?
+prev_facts: 32
 -
 id: 123
 MC
@@ -17,4 +36,3 @@ somewhere
 description: At night,\
 trying not to be seen
 prev_facts: 2,32
-chapter: 0
