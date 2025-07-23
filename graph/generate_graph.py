@@ -4,45 +4,9 @@ import pickle as pkl
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
-import spacy
-
 from models import Fact, Character, Verb
 
-
-NLP_MODEL = "en_core_web_sm"
-try:
-    nlp = spacy.load(NLP_MODEL)
-except OSError:
-    spacy.cli.download(NLP_MODEL)
-    nlp = spacy.load(NLP_MODEL)
-
-
-def spacy_id_to_text(session, spacy_ids: bytes) -> str:
-    if not spacy_ids:
-        return ""
-    spacy_ids: list[int] = pkl.loads(spacy_ids)
-    result = []
-    i = 0
-    while i < len(spacy_ids):
-        # Check for character reference pattern: (c<id>)
-        if (
-            i + 2 < len(spacy_ids) and
-            spacy_ids[i] == ord('(') and
-            spacy_ids[i+1] == ord('c')
-        ):
-            # Extract character ID
-            i += 2
-            char = session.get(Character, int(spacy_ids[i]))
-            result.append(char.name if char else "?")
-            i += 2
-        else:
-            # Try to decode as vocabulary token
-            try:
-                result.append(nlp.vocab.strings[spacy_ids[i]])
-            except KeyError:
-                raise
-            i += 1
-    return ' '.join(result)
+from utils.spacy_ids_to_text import spacy_ids_to_text
 
 
 def generate_graph(db_uri, id_labels: bool = False):
@@ -63,7 +27,7 @@ def generate_graph(db_uri, id_labels: bool = False):
                 if id_labels:
                     fact_label = f"F-{fact.id}"
                 else:
-                    fact_text = spacy_id_to_text(session, fact.text)
+                    fact_text = spacy_ids_to_text(session, fact.text)
                     if len(fact_text) > 10:
                         fact_text = f"{fact_text[:10]}..."
                     fact_label = f"F-{fact_text}"
@@ -98,7 +62,7 @@ def generate_graph(db_uri, id_labels: bool = False):
                 if id_labels:
                     obj_label = f"O-{fact.object}"
                 else:
-                    obj_text = spacy_id_to_text(session, fact.object)
+                    obj_text = spacy_ids_to_text(session, fact.object)
                     if len(obj_text) > 10:
                         obj_text = f"{obj_text[:10]}..."
                     obj_label = f"O-{obj_text}"
@@ -131,7 +95,7 @@ def generate_graph(db_uri, id_labels: bool = False):
                             continue
                         if prev_fact.text is None:
                             continue
-                        pfact_text = spacy_id_to_text(session, prev_fact.text)
+                        pfact_text = spacy_ids_to_text(session, prev_fact.text)
                         if len(pfact_text) > 10:
                             pfact_text = f"{pfact_text[:10]}..."
                         pfact_label = f"F-{pfact_text}"

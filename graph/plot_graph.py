@@ -16,12 +16,12 @@ def plot_graph(db_uri, output_file="graph.png", *, graph=None):
 		k=11,
 		iterations=1300,
 		seed=48,
-	)  # Position the nodes
+	)
 	colors = [
-		data.get('color', 'skyblue')  # Use 'skyblue' as default color if 'color' key doesn't exist
+		data.get('color', 'skyblue')
 		for _, data in graph.nodes(data=True)
-	]  # Extract node colors
-	labels = nx.get_node_attributes(graph, 'label')  # Extract labels
+	]
+	labels = nx.get_node_attributes(graph, 'label')
 
 	# Draw nodes, edges, and labels
 	nx.draw(

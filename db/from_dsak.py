@@ -21,14 +21,14 @@ def from_dsak(db_uri, file_path):
 			rel_id = kwargs.pop("id", None)
 			if rel_id is not None:
 				rel_id = int(rel_id.strip())
-			
+
 			new_global_args = [
-				arg
+				arg[len(GLOBAL_STR):]
 				for arg in args
 				if arg.startswith(GLOBAL_STR)
 			]
 			new_global_kwargs = {
-				key: value
+				key[len(GLOBAL_STR):]: value
 				for key, value in kwargs.items()
 				if key.startswith(GLOBAL_STR)
 			}
@@ -63,7 +63,7 @@ def from_dsak(db_uri, file_path):
 					)
 				]
 
-			db_id = add_fact(session, *global_args, **global_kwargs, *args, **kwargs)
+			db_id = add_fact(session, *global_args, *args, **(global_kwargs | kwargs))
 
 			if rel_id is not None:
 				id_map[rel_id] = db_id
